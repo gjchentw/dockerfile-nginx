@@ -8,6 +8,8 @@ RUN 	echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/r
 ADD	nginx-main.conf /etc/nginx/modules/main.conf
 ADD	nginx-http.conf	/etc/nginx/conf.d/00-http.conf
 
+ADD	https://github.com/lukas2511/dehydrated /opt/letsencrypt.sh
+
 WORKDIR	/etc/nginx/
 RUN	openssl req -nodes -newkey rsa:2048 -keyout local/localhost.key -out local/localhost.csr -subj "/C=TW/ST=Taiwan/L=Taipei/O=unknown/OU=IT/CN=localhost.localdomain"
 RUN	openssl x509 -req -days 1800 -in local/localhost.csr -signkey local/localhost.key -out local/localhost.crt
