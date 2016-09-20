@@ -4,8 +4,8 @@ Alpine Linux with nginx configured for public web services.
 * HSTS ready.
 * Get SSL certificates from Let's Encrypt ( use https://github.com/lukas2511/dehydrated ) and auto-renew via crond.
 
-# Running Nginx Service Docker Swarm Mode
-Use virtual.host.com.conf (), with default/self-signed certs:
+# Running Nginx Service in Docker Swarm Mode
+Use virtual.host.com.conf (https://github.com/gjchentw/dockerfile-nginx/blob/master/virtual.host.com.conf), with default/self-signed certs:
 ```
 docker service create --name nginx --replicas 1 -p 80:80 -p 443:443 --mount type=bind,source=$(pwd)/certs/virtual.host.com,target=/etc/ssl/certs/virtual.host.com --mount type=bind,source=$(pwd)/virtual.host.com.conf,target=/etc/nginx/conf.d/virtual.host.com.conf gjchen/nginx
 ``` 
