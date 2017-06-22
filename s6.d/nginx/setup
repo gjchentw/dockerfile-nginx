@@ -1,0 +1,7 @@
+#!/bin/bash
+
+pushd /etc/ssl/certs.d/default > /dev/null
+    subj=${CERT_SUBJECT:-"/C=TW/ST=Taiwan/L=Taipei/O=Taiwan No. 1 Inc./OU=DevOps/CN=localhost.localdomain"}
+    openssl req -nodes -newkey rsa:2048 -keyout localhost.key -out localhost.csr -subj "${subj}"
+    openssl x509 -req -days 1800 -in localhost.csr -signkey localhost.key -out localhost.crt
+popd

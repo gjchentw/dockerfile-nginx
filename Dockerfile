@@ -7,12 +7,13 @@ RUN 	echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/r
 
 ADD	nginx-main.conf /etc/nginx/modules/main.conf
 ADD	nginx-http.conf	/etc/nginx/conf.d/00-http.conf
+ADD	default.conf	/etc/nginx/conf.d/default.conf
 ADD	https://raw.githubusercontent.com/lukas2511/dehydrated/master/dehydrated /etc/ssl/
 ADD	s6.d /etc/s6.d
 
 # support Lets Encrypt, renew automatically
 RUN	cd /etc/ssl && \
-	mkdir .acme-challenges certs.d && \
+	mkdir -p .acme-challenges certs.d/default && \
 	wget -O - https://letsencrypt.org/certs/isrgrootx1.pem https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem https://letsencrypt.org/certs/letsencryptauthorityx1.pem https://www.identrust.com/certificates/trustid/root-download-x3.html | tee -a letsencrypt-ca-certs.pem && \
 	openssl dhparam -out dh2048.pem 2048 && \
 	chmod a+x dehydrated && \
