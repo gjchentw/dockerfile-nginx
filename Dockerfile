@@ -13,7 +13,12 @@ ADD	letsencrypt-ca-certs.pem /etc/ssl/
 ADD	s6.d /etc/s6.d
 
 # support Lets Encrypt, renew automatically
-RUN	cd /etc/ssl && \
+RUN	mkdir -p /var/log/nginx && \
+	chmod 755 /var/log/nginx && \
+	rm -f /var/log/nginx/* && \
+	ln -s /dev/null /var/log/nginx/access.log && \
+	ln -s /dev/null /var/log/nginx/error.log && \
+	cd /etc/ssl && \
 	mkdir -p .acme-challenges certs.d/default && \
 	#wget -O - https://letsencrypt.org/certs/isrgrootx1.pem https://letsencrypt.org/certs/lets-encrypt-x1-cross-signed.pem https://letsencrypt.org/certs/letsencryptauthorityx1.pem https://www.identrust.com/certificates/trustid/root-download-x3.html | tee -a letsencrypt-ca-certs.pem && \
 	openssl dhparam -out dh2048.pem 2048 && \
