@@ -1,4 +1,4 @@
-FROM	gjchen/alpine:latest
+FROM	gjchen/alpine:edge
 
 RUN 	echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 	apk --no-cache --no-progress upgrade -f && \
