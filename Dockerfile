@@ -26,6 +26,6 @@ RUN	mkdir -p /var/log/nginx && \
 	printf "WELLKNOWN=/etc/ssl/.acme-challenges\nCERTDIR=/etc/ssl/certs.d\n" > config && \
 	echo '0 0 * * * sleep $(expr $(printf "%d" "0x$(hostname | md5sum | cut -c 1-8)") \% 86400);/etc/ssl/dehydrated -c --ocsp; nginx -s reload' >> /etc/crontabs/root
 
-VOLUME	[ "/etc/nginx/server.d", "/etc/ssl/certs.d", "/etc/ssl/.acme-challenges" ]
+VOLUME	[ "/etc/nginx/server.d", "/etc/ssl/certs.d", "/etc/ssl/.acme-challenges", "/etc/ssl/accounts" ]
 
 EXPOSE	80 443
