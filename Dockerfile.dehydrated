@@ -1,0 +1,11 @@
+FROM	gjchen/nginx:latest
+
+RUN	apk --no-cache --no-progress upgrade -f && \
+	curl --output /etc/nginx/conf.d/01-letsencrypt.conf https://raw.githubusercontent.com/gjchentw/dockerfile-nginx/master/nginx-letsencrypt.conf && \
+	curl --output /etc/ssl/dehydrated https://raw.githubusercontent.com/lukas2511/dehydrated/master/dehydrated && \
+	curl --output /etc/ssl/letsencrypt-ca-certs.pem https://github.com/gjchentw/dockerfile-nginx/blame/master/letsencrypt-ca-certs.pem && \
+	chmod a+x /etc/ssl/dehydrated && \
+	printf "WELLKNOWN=/etc/ssl/.acme-challenges\nCERTDIR=/etc/ssl/certs.d\n" > /etc/ssl/config && \
+	echo '0 0 * * * sleep $(expr $(printf "%d" "0x$(hostname | md5sum | cut -c 1-8)") \% 86400);/etc/ssl/dehydrated -c --ocsp; nginx -s reload' >> /etc/crontabs/root
+
+EXPOSE	80 443
